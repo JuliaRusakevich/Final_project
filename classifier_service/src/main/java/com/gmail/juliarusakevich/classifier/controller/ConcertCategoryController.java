@@ -1,7 +1,7 @@
 package com.gmail.juliarusakevich.classifier.controller;
 
-import com.gmail.juliarusakevich.classifier.dto.ConcertCategoryCreateDto;
-import com.gmail.juliarusakevich.classifier.dto.ConcertCategoryReadDto;
+import com.gmail.juliarusakevich.classifier.dto.category.ConcertCategoryCreateDTO;
+import com.gmail.juliarusakevich.classifier.dto.category.ConcertCategoryReadDTO;
 import com.gmail.juliarusakevich.classifier.model.ConcertCategory;
 import com.gmail.juliarusakevich.classifier.pagination.PageResponse;
 import com.gmail.juliarusakevich.classifier.service.api.IConcertCategory;
@@ -20,13 +20,13 @@ public class ConcertCategoryController {
 
     @RequestMapping(value = "/api/v1/classifier/concert/category", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public ConcertCategory addCategory(@RequestBody ConcertCategoryCreateDto dto) {
+    public ConcertCategory addCategory(@RequestBody ConcertCategoryCreateDTO dto) {
         return this.service.create(dto);
     }
 
     @RequestMapping(value = "/api/v1/classifier/concert/category", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public PageResponse<ConcertCategoryReadDto> findAll(Pageable pageable) {
+    public PageResponse<ConcertCategoryReadDTO> findAll(Pageable pageable) {
         var result = this.service.findAll(pageable);
         return PageResponse.of(result);
     }

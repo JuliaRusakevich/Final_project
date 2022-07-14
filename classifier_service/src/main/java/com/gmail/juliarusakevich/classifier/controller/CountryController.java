@@ -1,7 +1,7 @@
 package com.gmail.juliarusakevich.classifier.controller;
 
-import com.gmail.juliarusakevich.classifier.dto.CountryCreateDto;
-import com.gmail.juliarusakevich.classifier.dto.CountryReadDto;
+import com.gmail.juliarusakevich.classifier.dto.country.CountryCreateDTO;
+import com.gmail.juliarusakevich.classifier.dto.country.CountryReadDTO;
 import com.gmail.juliarusakevich.classifier.model.Country;
 import com.gmail.juliarusakevich.classifier.pagination.PageResponse;
 import com.gmail.juliarusakevich.classifier.service.api.ICountry;
@@ -27,7 +27,7 @@ public class CountryController {
     */
 
     @RequestMapping(value = "/api/v1/classifier/country", method = RequestMethod.POST)
-    public ResponseEntity<Country> addCountry(@RequestBody CountryCreateDto dto) {
+    public ResponseEntity<Country> addCountry(@RequestBody CountryCreateDTO dto) {
         if (this.service.create(dto) != null) {
             return new ResponseEntity<>(this.service.create(dto), HttpStatus.CREATED);
         } else {
@@ -37,7 +37,7 @@ public class CountryController {
 
     @RequestMapping(value = "/api/v1/classifier/country", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public PageResponse<CountryReadDto> findAll(Pageable pageable) {
+    public PageResponse<CountryReadDTO> findAll(Pageable pageable) {
         var result = this.service.findAll(pageable);
         return PageResponse.of(result);
     }

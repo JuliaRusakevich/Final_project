@@ -4,6 +4,7 @@ import com.gmail.juliarusakevich.classifier.controller.json.LocalDateTimeDeseria
 import com.gmail.juliarusakevich.classifier.controller.json.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,15 +39,10 @@ example: Стендап
 public class ConcertCategory implements Serializable {
 
     private static final long serialVersionUID = 2L;
-    @Id
-    @Column(name = "uuid", nullable = false, updatable = false)
+
     private UUID uuid;
-    @Column(name = "dt_create", nullable = false)
     private LocalDateTime dtCreate;
-    @Version
-    @Column(name = "dt_update", nullable = false)
     private LocalDateTime dtUpdate;
-    @Column(name = "title")
     private String title;
 
     public ConcertCategory() {
@@ -59,10 +55,11 @@ public class ConcertCategory implements Serializable {
         this.title = title;
     }
 
-    public static ConcertCategoryBuilder builder() {
-        return new ConcertCategoryBuilder();
-    }
-
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
     public UUID getUuid() {
         return uuid;
     }
@@ -71,18 +68,21 @@ public class ConcertCategory implements Serializable {
         this.uuid = uuid;
     }
 
+    @Column(name = "dt_create", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     public LocalDateTime getDtCreate() {
         return dtCreate;
     }
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     public void setDtCreate(LocalDateTime dtCreate) {
         this.dtCreate = dtCreate;
     }
 
+    @Version
+    @Column(name = "dt_update", nullable = false)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     public LocalDateTime getDtUpdate() {
         return dtUpdate;
     }
@@ -91,6 +91,7 @@ public class ConcertCategory implements Serializable {
         this.dtUpdate = dtUpdate;
     }
 
+    @Column(name = "title")
     public String getTitle() {
         return title;
     }
@@ -102,65 +103,23 @@ public class ConcertCategory implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ConcertCategory)) return false;
         ConcertCategory that = (ConcertCategory) o;
-        return Objects.equals(uuid, that.uuid) && Objects.equals(dtCreate, that.dtCreate) && Objects.equals(dtUpdate, that.dtUpdate) && Objects.equals(title, that.title);
+        return Objects.equals(getUuid(), that.getUuid()) && Objects.equals(getDtCreate(), that.getDtCreate()) && Objects.equals(getDtUpdate(), that.getDtUpdate()) && Objects.equals(getTitle(), that.getTitle());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, dtCreate, dtUpdate, title);
+        return Objects.hash(getUuid(), getDtCreate(), getDtUpdate(), getTitle());
     }
 
     @Override
     public String toString() {
         return "ConcertCategory{" +
-                "uuid=" + uuid +
-                ", dt_create=" + dtCreate +
-                ", dt_update=" + dtUpdate +
-                ", title='" + title + '\'' +
-                '}';
-    }
-
-    public static class ConcertCategoryBuilder {
-
-        private UUID uuid;
-        private LocalDateTime dt_create;
-        private LocalDateTime dt_update;
-        private String title;
-
-        public ConcertCategoryBuilder uuid(UUID uuid) {
-            this.uuid = uuid;
-            return this;
-        }
-
-        public ConcertCategoryBuilder dt_create(LocalDateTime dt_create) {
-            this.dt_create = dt_create;
-            return this;
-        }
-
-        public ConcertCategoryBuilder dt_update(LocalDateTime dt_update) {
-            this.dt_update = dt_update;
-            return this;
-        }
-
-        public ConcertCategoryBuilder title(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public ConcertCategory build() {
-            return new ConcertCategory(uuid, dt_create, dt_update, title);
-        }
-
-        @Override
-        public String toString() {
-            return "ConcertCategoryBuilder{" +
-                    "uuid=" + uuid +
-                    ", dt_create=" + dt_create +
-                    ", dt_update=" + dt_update +
-                    ", title='" + title + '\'' +
-                    '}';
-        }
+               "uuid=" + uuid +
+               ", dtCreate=" + dtCreate +
+               ", dtUpdate=" + dtUpdate +
+               ", title='" + title + '\'' +
+               '}';
     }
 }

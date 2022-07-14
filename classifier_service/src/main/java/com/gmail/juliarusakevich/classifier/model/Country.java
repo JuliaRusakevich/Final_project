@@ -1,10 +1,10 @@
 package com.gmail.juliarusakevich.classifier.model;
 
-
 import com.gmail.juliarusakevich.classifier.controller.json.LocalDateTimeDeserializer;
 import com.gmail.juliarusakevich.classifier.controller.json.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -43,17 +43,11 @@ example: Россия
 public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "uuid", nullable = false, updatable = false)
+
     private UUID uuid;
-    @Column(name = "dt_create", nullable = false)
     private LocalDateTime dtCreate;
-    @Version
-    @Column(name = "dt_update", nullable = false)
     private LocalDateTime dtUpdate;
-    @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "description", nullable = false)
     private String description;
 
     public Country() {
@@ -71,10 +65,11 @@ public class Country implements Serializable {
         this.description = description;
     }
 
-    public static CountryBuilder builder() {
-        return new CountryBuilder();
-    }
-
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
     public UUID getUuid() {
         return uuid;
     }
@@ -83,6 +78,7 @@ public class Country implements Serializable {
         this.uuid = uuid;
     }
 
+    @Column(name = "dt_create", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     public LocalDateTime getDtCreate() {
@@ -93,7 +89,8 @@ public class Country implements Serializable {
         this.dtCreate = dtCreate;
     }
 
-
+    @Version
+    @Column(name = "dt_update", nullable = false)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     public LocalDateTime getDtUpdate() {
@@ -105,6 +102,7 @@ public class Country implements Serializable {
         this.dtUpdate = dtUpdate;
     }
 
+    @Column(name = "title", nullable = false)
     public String getTitle() {
         return title;
     }
@@ -113,6 +111,7 @@ public class Country implements Serializable {
         this.title = title;
     }
 
+    @Column(name = "description", nullable = false)
     public String getDescription() {
         return description;
     }
@@ -121,66 +120,27 @@ public class Country implements Serializable {
         this.description = description;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Country)) return false;
         Country country = (Country) o;
-        return Objects.equals(uuid, country.uuid) && Objects.equals(dtCreate, country.dtCreate) && Objects.equals(dtUpdate, country.dtUpdate) && Objects.equals(title, country.title) && Objects.equals(description, country.description);
+        return Objects.equals(getUuid(), country.getUuid());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, dtCreate, dtUpdate, title, description);
+        return Objects.hash(getUuid());
     }
 
     @Override
     public String toString() {
-        return "Country{}";
-    }
-
-    public static class CountryBuilder {
-        private UUID uuid;
-        private LocalDateTime dtCreate;
-        private LocalDateTime dtUpdate;
-        private String title;
-        private String description;
-
-        CountryBuilder() {
-        }
-
-        public CountryBuilder uuid(UUID uuid) {
-            this.uuid = uuid;
-            return this;
-        }
-
-        public CountryBuilder dtCreate(LocalDateTime dtCreate) {
-            this.dtCreate = dtCreate;
-            return this;
-        }
-
-        public CountryBuilder dtUpdate(LocalDateTime dtUpdate) {
-            this.dtUpdate = dtUpdate;
-            return this;
-        }
-
-        public CountryBuilder title(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public CountryBuilder description(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public Country build() {
-            return new Country(uuid, dtCreate, dtUpdate, title, description);
-        }
-
-        public String toString() {
-            return "Country.CountryBuilder(uuid=" + this.uuid + ", dtCreate=" + this.dtCreate + ", dtUpdate=" + this.dtUpdate + ", title=" + this.title + ", description=" + this.description + ")";
-        }
+        return "Country{" +
+               "uuid=" + uuid +
+               ", dtCreate=" + dtCreate +
+               ", dtUpdate=" + dtUpdate +
+               ", title='" + title + '\'' +
+               ", description='" + description + '\'' +
+               '}';
     }
 }
