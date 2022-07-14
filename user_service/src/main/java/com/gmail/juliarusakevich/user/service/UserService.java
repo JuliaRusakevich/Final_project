@@ -62,8 +62,8 @@ public class UserService implements IUserCreateService {
                 .orElseThrow(() -> {
                     throw new IllegalArgumentException("Пользователь не найден.");
                 });
-//ИСПРАВИТЬ НА !
-        if (user.getDtUpdate().equals(dtUpdate)) {
+
+        if (!user.getDtUpdate().equals(dtUpdate)) {
             throw new OptimisticLockException("Данные уже были обновлены.");
         }
 
@@ -75,18 +75,5 @@ public class UserService implements IUserCreateService {
 
         return this.repository.save(user);
     }
-/*
-
-
-    @Override
-    public Boolean checkNick(String nick) {
-        return this.repository.findByNick(nick) != null;
-    }
-
-    @Override
-    public Boolean checkMail(String mail) {
-        return this.repository.findByMail(mail) != null;
-    }
-     */
 
 }
