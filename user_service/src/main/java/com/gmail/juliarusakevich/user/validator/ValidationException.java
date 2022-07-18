@@ -13,7 +13,6 @@ public class ValidationException extends RuntimeException {
         this.errorMessages = errorMessages;
     }
 
-
     public List<ErrorMessage> getErrorMessages() {
         return errorMessages;
     }

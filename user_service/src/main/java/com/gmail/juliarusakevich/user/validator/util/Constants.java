@@ -2,8 +2,8 @@ package com.gmail.juliarusakevich.user.validator.util;
 
 public final class Constants {
 
-    public static final String MAIL_PATTERN = "mailPattern";
-    public static final String NICK_PATTERN = "nickPattern";
+    public static final String MAIL_PATTERN = "mailPattern.regexp";
+    public static final String NICK_PATTERN = "nickPattern.regexp";
 
     public static final String FIELD_MAIL = "mail";
     public static final String ERROR_MESSAGE_FOR_MAIL = "Неверный формат.";

@@ -1,7 +1,6 @@
 package com.gmail.juliarusakevich.user.config;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gmail.juliarusakevich.user.controller.json.LocalDateTimeSerializer;
 import org.springframework.context.annotation.Bean;

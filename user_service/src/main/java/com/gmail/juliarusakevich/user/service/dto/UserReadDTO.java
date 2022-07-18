@@ -11,7 +11,7 @@ public final class UserReadDTO {
     private UUID uuid;
     private LocalDateTime dtCreate;
     private LocalDateTime dtUpdate;
-    private String mail;
+    private String username;
     private String nick;
     private UserRole role;
     private UserStatus status;
@@ -44,12 +44,12 @@ public final class UserReadDTO {
         this.dtUpdate = dtUpdate;
     }
 
-    public String getMail() {
-        return mail;
+    public String getUsername() {
+        return username;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getNick() {
@@ -90,7 +90,7 @@ public final class UserReadDTO {
                "uuid=" + uuid +
                ", dtCreate=" + dtCreate +
                ", dtUpdate=" + dtUpdate +
-               ", mail='" + mail + '\'' +
+               ", mail='" + username + '\'' +
                ", nick='" + nick + '\'' +
                ", role=" + role +
                ", status=" + status +

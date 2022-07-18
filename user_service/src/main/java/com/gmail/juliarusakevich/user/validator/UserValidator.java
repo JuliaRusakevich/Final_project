@@ -1,9 +1,8 @@
 package com.gmail.juliarusakevich.user.validator;
 
-import com.gmail.juliarusakevich.user.repository.model.enums.UserRole;
+import com.gmail.juliarusakevich.user.service.dto.UserCreateUpdateDTO;
 import com.gmail.juliarusakevich.user.validator.api.IValidator;
 import com.gmail.juliarusakevich.user.validator.errors.ErrorMessage;
-import com.gmail.juliarusakevich.user.service.dto.UserCreateUpdateDTO;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -26,9 +25,9 @@ public class UserValidator implements IValidator<UserCreateUpdateDTO> {
     @Override
     public boolean isValid(UserCreateUpdateDTO dto) {
 
-        if (dto.getMail() == null || isValidString(environment.getProperty(MAIL_PATTERN), dto.getMail())) {
+        if (dto.getUsername() == null || isValidString(environment.getProperty(MAIL_PATTERN), dto.getUsername())) {
             errorMessages.add(new ErrorMessage(
-                    FIELD_MAIL + dto.getMail(),
+                    FIELD_MAIL,
                     ERROR_MESSAGE_FOR_MAIL
             ));
         }
@@ -37,13 +36,6 @@ public class UserValidator implements IValidator<UserCreateUpdateDTO> {
             errorMessages.add(new ErrorMessage(
                     FIELD_NICK,
                     ERROR_MESSAGE_FOR_NICK
-            ));
-        }
-
-        if (dto.getRole() == null || !dto.getRole().equals(UserRole.USER) || !dto.getRole().equals(UserRole.ADMIN)){
-            errorMessages.add(new ErrorMessage(
-                    FIELD_ROLE,
-                    ERROR_MESSAGE_FOR_ROLE
             ));
         }
 

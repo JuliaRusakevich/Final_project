@@ -3,22 +3,21 @@ package com.gmail.juliarusakevich.user.service.dto;
 import com.gmail.juliarusakevich.user.repository.model.enums.UserRole;
 import com.gmail.juliarusakevich.user.repository.model.enums.UserStatus;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 
 public class UserCreateUpdateDTO {
 
     private LocalDateTime dtCreate;
-    // @Pattern(regexp = "^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\\.(?!$)|$)){4}$")
-    @Pattern(regexp = "^[а-яА-Яa-zA-Z\\d]{3,15}$")
-    private String mail;
-    @Pattern(regexp = "^[а-яА-Яa-zA-Z\\d]{3,15}$")
+    private String username;
     private String nick;
     private UserRole role;
     private UserStatus status;
-    @NotBlank
+    /*
+    Только во время создания, для обновления будет другая дто,
+    так как пароль обновляется отдельно от всей сущности
+     */
+    //@NotBlank(groups = LruCache.CreateAction.class)
     private String password;
 
     public UserCreateUpdateDTO() {
@@ -32,12 +31,12 @@ public class UserCreateUpdateDTO {
         this.dtCreate = dtCreate;
     }
 
-    public String getMail() {
-        return mail;
+    public String getUsername() {
+        return username;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getNick() {
@@ -75,7 +74,7 @@ public class UserCreateUpdateDTO {
     @Override
     public String toString() {
         return "UserCreateUpdateDTO{" +
-               "mail='" + mail + '\'' +
+               "mail='" + username + '\'' +
                ", nick='" + nick + '\'' +
                ", role=" + role +
                ", status=" + status +

@@ -1,6 +1,15 @@
 package com.gmail.juliarusakevich.user.repository.model.enums;
 
-public enum UserRole {
+//implements GrantedAuthority
+import org.springframework.security.core.GrantedAuthority;
+
+public enum UserRole implements GrantedAuthority {
     ADMIN,
-    USER
+    USER;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
+
 }
