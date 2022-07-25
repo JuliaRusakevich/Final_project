@@ -26,7 +26,7 @@ public class UserRegistrationValidator implements IValidator<UserRegistration> {
         //ПРОВЕРКА MAIL
         if (!isValidString(projectDetails.mailPattern, object.getMail())) {
             errorMessages.add(new ErrorMessage(
-                    projectDetails.mailField,
+                    object.getMail(),
                     projectDetails.mailErrorMessage
             ));
 
@@ -34,7 +34,7 @@ public class UserRegistrationValidator implements IValidator<UserRegistration> {
         //ПРОВЕРКА NICK
         if (!isValidString(projectDetails.nickPattern, object.getNick())) {
             errorMessages.add(new ErrorMessage(
-                    projectDetails.nickField,
+                    object.getNick(),
                     projectDetails.nickErrorMessage
             ));
         }
@@ -42,7 +42,7 @@ public class UserRegistrationValidator implements IValidator<UserRegistration> {
         //ПРОВЕРКА PASSWORD
         if (!isValidString(projectDetails.passwordPattern, object.getPassword())) {
             errorMessages.add(new ErrorMessage(
-                    projectDetails.passwordField,
+                    object.getPassword(),
                     projectDetails.passwordErrorMessage
             ));
         }
