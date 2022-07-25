@@ -22,9 +22,7 @@ project:
     mailPattern: ^[a-zA-Z0-9]{2,10}$
     nickPattern: ^[a-zA-Z0-9]{2,10}$
     passwordPattern: ^[a-zA-Z0-9]{2,10}$
-    mailField: mail
-    nickField: nick
-    passwordField: password
+
     mailErrorMessage: Некорректные символы
     nickErrorMessage: Некорректные символы
     passwordErrorMessage: Некорректные символы
