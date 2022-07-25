@@ -27,7 +27,7 @@ public class UserCreateUpdateValidator implements IValidator<UserCreateUpdateDTO
         //ПРОВЕРКА MAIL
         if (!isValidString(projectDetails.mailPattern, object.getMail())) {
             errorMessages.add(new ErrorMessage(
-                    projectDetails.mailField,
+                   object.getMail(),
                     projectDetails.mailErrorMessage
             ));
 
@@ -35,7 +35,7 @@ public class UserCreateUpdateValidator implements IValidator<UserCreateUpdateDTO
         //ПРОВЕРКА NICK
         if (!isValidString(projectDetails.nickPattern, object.getNick())) {
             errorMessages.add(new ErrorMessage(
-                    projectDetails.nickField,
+                    object.getNick(),
                     projectDetails.nickErrorMessage
             ));
         }
@@ -43,7 +43,7 @@ public class UserCreateUpdateValidator implements IValidator<UserCreateUpdateDTO
         //ПРОВЕРКА PASSWORD
         if (!isValidString(projectDetails.passwordPattern, object.getPassword())) {
             errorMessages.add(new ErrorMessage(
-                    projectDetails.passwordField,
+                    object.getPassword(),
                     projectDetails.passwordErrorMessage
             ));
         }
