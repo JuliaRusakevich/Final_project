@@ -4,48 +4,33 @@ CREATE SCHEMA IF NOT EXISTS user_info
     AUTHORIZATION postgres;
 
 -- auto-generated definition
-create table user_info.users
+create table users
 (
-    uuid        uuid primary key,
-    dt_create   timestamp,
-    dt_update   timestamp,
-    username    text not null,
-    nick        text,
-    status      varchar(20),
-    password    text not null,
-    enabled     boolean,
+    uuid        uuid not null
+        primary key,
     created_at  timestamp,
+    created_by  varchar(255),
     modified_at timestamp,
-    created_by  text,
-    modified_by text
+    modified_by varchar(255),
+    mail        varchar(255),
+    nick        varchar(255),
+    password    varchar(255),
+    status      varchar(255)
 );
 
-alter table user_info.users
+alter table users
     owner to postgres;
-
 
 -- auto-generated definition
-create table user_info.authorities
+create table authorities
 (
-    id        bigserial primary key,
-    authority text
-);
-
-alter table user_info.authorities
-    owner to postgres;
-
-create table user_info.users_authorities
-(
-    users_uuid   uuid    not null
-        constraint fk2cmfwo8tbjcpmltse0rh5ir0t
+    user_uuid uuid not null
+        constraint fk2xdyll0ehxo3sod69opsswwrh
             references users,
-    authority_id integer not null
-        constraint fkdsfxx5g8x8mnxne1fe0yxhjhq
-            references authorities,
-    primary key (users_uuid, authority_id)
+    authority varchar(255)
 );
 
-alter table user_info.users_authorities
+alter table authorities
     owner to postgres;
 
 
