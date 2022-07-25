@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "field.mail",
+      "type": "java.lang.String",
+      "description": "Description for field.mail."
+    },
+    {
+      "name": "project.details.field.mail",
+      "type": "java.lang.String",
+      "description": "Description for project.details.field.mail."
+    },
+    {
+      "name": "project.details.pattern.mail",
+      "type": "java.lang.String",
+      "description": "Description for project.details.pattern.mail."
+    }
+  ] }
