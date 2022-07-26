@@ -1,15 +1,30 @@
 spring:
   jpa:
-   database: POSTGRESQL
-   database-platform: org.hibernate.dialect.PostgreSQLDialect
-   show-sql: true
-   format_sql: true
-   open-in-view: false
-   properties:
-     hibernate:
-       format_sql: true
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
   datasource:
     username: postgres
     password: pass
     url: jdbc:postgresql://localhost:5432/classifier?currentSchema=classifier
     driver-class-name: org.postgresql.Driver
+
+server:
+  port: 8082
+  error:
+    include-message: ALWAYS
+
+project:
+  details:
+    pattern:
+      titleCountry: ^[A-Z]{3}$
+      descriptionCountry: ^[a-zA-Zа-яA-я]{1,50}$
+      titleConcertCategory: ^[a-zA-Zа-яA-я0-9]{1,50}$
+error:
+  message:
+    titleCountry: Используйте трехбуквенный код страны
+    incorrectSymbols: Введены некорректные символы

@@ -1,13 +1,13 @@
 package com.gmail.juliarusakevich.classifier.config;
 
-import com.gmail.juliarusakevich.classifier.controller.json.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import com.gmail.juliarusakevich.classifier.controller.json.LocalDateTimeSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 
 import java.time.LocalDateTime;
 import java.util.Map;

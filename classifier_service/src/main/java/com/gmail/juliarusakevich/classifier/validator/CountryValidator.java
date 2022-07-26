@@ -1,35 +1,48 @@
 package com.gmail.juliarusakevich.classifier.validator;
 
+import com.gmail.juliarusakevich.classifier.config.yml.CustomErrorMessage;
+import com.gmail.juliarusakevich.classifier.config.yml.CustomPattern;
 import com.gmail.juliarusakevich.classifier.dto.country.CountryCreateDTO;
+import com.gmail.juliarusakevich.classifier.dto.errors.ErrorMessage;
 import com.gmail.juliarusakevich.classifier.validator.api.IValidator;
-import com.gmail.juliarusakevich.classifier.validator.errors.ErrorMessage;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
 public class CountryValidator implements IValidator<CountryCreateDTO> {
 
-    private final List<ErrorMessage> errorMessages = new ArrayList<>();
-    private final Environment environment; //read application.properties
+    private final CustomPattern pattern1;
+    private final CustomErrorMessage errorMessage1;
 
-    public CountryValidator(Environment environment) {
-        this.environment = environment;
+    public CountryValidator(CustomPattern pattern1, CustomErrorMessage errorMessage1) {
+        this.pattern1 = pattern1;
+        this.errorMessage1 = errorMessage1;
     }
-
 
     @Override
-    public boolean isValid(CountryCreateDTO dto) {
-        if (!errorMessages.isEmpty()) {
-            throw new ValidationException(errorMessages);
+    public ValidationResult isValid(CountryCreateDTO dto) {
+        var validationResult = new ValidationResult();
+
+        if (!isValidString(pattern1.getTitleCountry(), dto.getTitle())) {
+            validationResult.add(new ErrorMessage(
+                    dto.getTitle(),
+                    errorMessage1.getTitleCountry()
+            ));
         }
-        return true;
+
+        if (!isValidString(pattern1.getDescriptionCountry(), dto.getDescription())) {
+            validationResult.add(new ErrorMessage(
+                    dto.getDescription(),
+                    errorMessage1.getIncorrectSymbols()
+            ));
+        }
+
+        return validationResult;
     }
 
+
     private boolean isValidString(String regex, String input) {
-        return !Pattern.matches(regex, input);
+        return Pattern.matches(regex, input);
     }
 }

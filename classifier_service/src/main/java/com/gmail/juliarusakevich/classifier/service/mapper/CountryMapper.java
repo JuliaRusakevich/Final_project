@@ -2,7 +2,7 @@ package com.gmail.juliarusakevich.classifier.service.mapper;
 
 import com.gmail.juliarusakevich.classifier.dto.country.CountryCreateDTO;
 import com.gmail.juliarusakevich.classifier.dto.country.CountryReadDTO;
-import com.gmail.juliarusakevich.classifier.model.Country;
+import com.gmail.juliarusakevich.classifier.entity.Country;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

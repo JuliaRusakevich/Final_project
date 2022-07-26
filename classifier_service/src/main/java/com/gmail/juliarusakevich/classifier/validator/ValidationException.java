@@ -1,7 +1,7 @@
 package com.gmail.juliarusakevich.classifier.validator;
 
 
-import com.gmail.juliarusakevich.classifier.validator.errors.ErrorMessage;
+import com.gmail.juliarusakevich.classifier.dto.errors.ErrorMessage;
 
 import java.util.List;
 

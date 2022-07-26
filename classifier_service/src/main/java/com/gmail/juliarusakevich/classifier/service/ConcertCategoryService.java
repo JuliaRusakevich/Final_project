@@ -1,17 +1,18 @@
 package com.gmail.juliarusakevich.classifier.service;
 
-import com.gmail.juliarusakevich.classifier.dto.category.ConcertCategoryCreateDTO;
 import com.gmail.juliarusakevich.classifier.dto.category.ConcertCategoryReadDTO;
-import com.gmail.juliarusakevich.classifier.model.ConcertCategory;
+import com.gmail.juliarusakevich.classifier.entity.ConcertCategory;
 import com.gmail.juliarusakevich.classifier.repository.IConcertCategoryRepository;
-import com.gmail.juliarusakevich.classifier.service.api.IConcertCategory;
+import com.gmail.juliarusakevich.classifier.service.api.IClassifierService;
 import com.gmail.juliarusakevich.classifier.service.mapper.ConcertCategoryMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
-public class ConcertCategoryService implements IConcertCategory {
+public class ConcertCategoryService implements IClassifierService<ConcertCategory, ConcertCategoryReadDTO> {
 
     private final IConcertCategoryRepository repository;
     private final ConcertCategoryMapper mapper;
@@ -23,16 +24,24 @@ public class ConcertCategoryService implements IConcertCategory {
         this.mapper = mapper;
     }
 
+
     @Override
-    public ConcertCategory create(ConcertCategoryCreateDTO dto) {
-        var category = mapper.toEntity(dto);
-        return this.repository.save(category);
+    public ConcertCategory add(ConcertCategory object) {
+        return this.repository.save(object);
     }
 
     @Override
     public Page<ConcertCategoryReadDTO> findAll(Pageable pageable) {
-        var result = this.repository.findAll(pageable);
         return this.repository.findAll(pageable)
                 .map(mapper::toDTO);
+    }
+
+    @Override
+    public ConcertCategoryReadDTO findByUUID(UUID uuid) {
+        return this.repository.findById(uuid)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> {
+                    throw new IllegalArgumentException("Country not found");
+                });
     }
 }
