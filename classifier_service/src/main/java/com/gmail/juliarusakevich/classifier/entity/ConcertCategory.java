@@ -36,7 +36,9 @@ example: Стендап
  */
 @Entity
 @Table(name = "concert_category", schema = "classifier")
-public class ConcertCategory implements Serializable {
+public class ConcertCategory
+        extends AuditingEntity<UUID>
+        implements Serializable {
 
     private static final long serialVersionUID = 2L;
 

@@ -40,7 +40,9 @@ example: Россия
  */
 @Entity
 @Table(name = "country", schema = "classifier")
-public class Country implements Serializable {
+public class Country
+        extends AuditingEntity<UUID>
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
