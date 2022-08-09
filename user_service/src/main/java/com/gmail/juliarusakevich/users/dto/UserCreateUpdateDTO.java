@@ -33,7 +33,7 @@ public class UserCreateUpdateDTO {
 
     private String mail;
     private String nick;
-    private Set<UserRole> role = new HashSet<>();
+    private Set<UserRole> role;
     private UserStatus status;//[ WAITING_ACTIVATION, ACTIVATED, DEACTIVATED ]
     private String password;
 

@@ -1,10 +1,9 @@
 package com.gmail.juliarusakevich.users.controller.advices;
 
 
-import com.gmail.juliarusakevich.users.validator.ValidationException;
 import com.gmail.juliarusakevich.users.dto.errors.ErrorMessage;
-
 import com.gmail.juliarusakevich.users.dto.errors.StructuredError;
+import com.gmail.juliarusakevich.users.validator.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
@@ -14,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.OptimisticLockException;
+
+import org.postgresql.util.PSQLException;
+import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -41,7 +43,7 @@ public class GlobalHandler {
     @ResponseStatus(BAD_REQUEST)
     public ErrorMessage handle(AuthenticationException e) {
         return new ErrorMessage(
-                e.getMessage()
+                e.getLocalizedMessage()
         );
     }
 
@@ -61,6 +63,12 @@ public class GlobalHandler {
               e.getMessage()
 
         );
+    }
+
+    @ExceptionHandler(PSQLException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ErrorMessage handle(PSQLException e){
+        return new ErrorMessage(Objects.requireNonNull(e.getServerErrorMessage()).getDetail());
     }
 
     @ExceptionHandler(ValidationException.class)

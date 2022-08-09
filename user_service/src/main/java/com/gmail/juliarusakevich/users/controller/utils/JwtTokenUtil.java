@@ -1,20 +1,23 @@
 package com.gmail.juliarusakevich.users.controller.utils;
 
 import io.jsonwebtoken.*;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtTokenUtil {
+
     /*
-  ключ, при помощи которого шифруется содержимое токена для проверки корректности этого токена
-   */
+ключ, при помощи которого шифруется содержимое токена для проверки корректности этого токена
+ */
     private static final String jwtSecret = "NDQ1ZjAzNjQtMzViZi00MDRjLTljZjQtNjNjYWIyZTU5ZDYw";
     private static final String jwtIssuer = "ITAcademy";
-
 
     // public static String generateAccessToken(UserDetails user) {
     //     var username = user.getUsername();
@@ -25,12 +28,23 @@ public class JwtTokenUtil {
     сгенерировали токен
      */
     public static String generateAccessToken(UserDetails user) {
-        return generateAccessToken(user.getUsername());
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+        ArrayList<String> authsList = new ArrayList<>(authorities.size());
+        for (GrantedAuthority authority : authorities) {
+            authsList.add(authority.getAuthority());
+        }
+        var enabled = user.isEnabled();
+        return generateAccessToken(user.getUsername(), authsList, enabled);
     }
 
-    public static String generateAccessToken(String name) {
+
+    public static String generateAccessToken(String name,
+                                             ArrayList<String> authsList,
+                                             boolean enabled) {
         return Jwts.builder()
                 .setSubject(name)
+                .claim("role", authsList)
+                .claim("enabled", enabled)
                 .setIssuer(jwtIssuer)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7)))
@@ -60,7 +74,7 @@ public class JwtTokenUtil {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
-        } catch (SignatureException ex) {
+            //} catch (SignatureException ex) {
             //logger.error("Invalid JWT signature - {}", ex.getMessage());
         } catch (MalformedJwtException ex) {
             //logger.error("Invalid JWT token - {}", ex.getMessage());

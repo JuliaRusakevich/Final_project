@@ -16,11 +16,9 @@ public final class UserReadDTO {
     private final UserStatus status;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
-    private final String createdBy;
-    private final String modifiedBy;
+    private final Integer version;
 
-
-    public UserReadDTO(UUID uuid, String mail, String nick, Set<UserRole> role, UserStatus status, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
+    public UserReadDTO(UUID uuid, String mail, String nick, Set<UserRole> role, UserStatus status, LocalDateTime createdAt, LocalDateTime modifiedAt, Integer version) {
         this.uuid = uuid;
         this.mail = mail;
         this.nick = nick;
@@ -28,8 +26,7 @@ public final class UserReadDTO {
         this.status = status;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
-        this.createdBy = createdBy;
-        this.modifiedBy = modifiedBy;
+        this.version = version;
     }
 
     public UUID getUuid() {
@@ -60,11 +57,7 @@ public final class UserReadDTO {
         return modifiedAt;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
+    public Integer getVersion() {
+        return version;
     }
 }

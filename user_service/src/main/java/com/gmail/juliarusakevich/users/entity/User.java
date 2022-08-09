@@ -4,11 +4,12 @@ import com.gmail.juliarusakevich.users.entity.enums.UserRole;
 import com.gmail.juliarusakevich.users.entity.enums.UserStatus;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users", schema = "security")
@@ -30,7 +31,7 @@ public class User extends AuditingEntity<UUID> implements Serializable {
 
     @Column(name = "password")
     private String password;
-//@Transactional(propagation=Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
+
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "authorities", joinColumns = @JoinColumn(name = "user_uuid"))
     @Enumerated(EnumType.STRING)
@@ -40,6 +41,10 @@ public class User extends AuditingEntity<UUID> implements Serializable {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+
+    @Version
+    @Column(name = "version")
+    private Integer version;
 
     public User() {
     }
@@ -56,6 +61,19 @@ public class User extends AuditingEntity<UUID> implements Serializable {
         this.password = password;
         this.role = roles;
     }
+
+    public User(String mail,
+                String password,
+                Set<UserRole> role,
+                UserStatus status,
+                UUID uuid) {
+        this.uuid = uuid;
+        this.mail = mail;
+        this.password = password;
+        this.role = role;
+        this.status = status;
+    }
+
 
     public UUID getUuid() {
         return uuid;
@@ -114,4 +132,9 @@ public class User extends AuditingEntity<UUID> implements Serializable {
         }
         return rolesList;
     }
+
+    public Integer getVersion() {
+        return version;
+    }
+
 }

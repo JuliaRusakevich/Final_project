@@ -1,0 +1,42 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    username: postgres
+    password: pass
+    url: jdbc:postgresql://localhost:5432/users?currentSchema=security
+    driver-class-name: org.postgresql.Driver
+  mvc:
+    format:
+      date: iso
+      date-time: iso
+
+server:
+  port: 8081
+  error:
+    include-message: ALWAYS
+
+project:
+  details:
+    pattern:
+      mailPattern: ^[a-zA-Z0-9]{2,10}$
+      nickPattern: ^[a-zA-Z0-9]{2,10}$
+      passwordPattern: ^[a-zA-Z0-9]{2,10}$
+
+error:
+  message:
+    incorrectMail: Неверный email
+    incorrectNick: Некорректные ник
+    incorrectPassword: Неверный пароль
+    userNotFound: Пользователь с таким логином не найден
+    updatedInfo: Данные уже обновлены
+
+
+
+

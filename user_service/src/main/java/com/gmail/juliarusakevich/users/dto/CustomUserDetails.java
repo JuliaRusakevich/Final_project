@@ -1,30 +1,52 @@
 package com.gmail.juliarusakevich.users.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gmail.juliarusakevich.users.entity.User;
+import com.gmail.juliarusakevich.users.entity.enums.UserStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.UUID;
 
+import static com.gmail.juliarusakevich.users.entity.enums.UserStatus.*;
 
 public class CustomUserDetails implements UserDetails {
 
+    private UUID uuid;
     private String mail;
+    private UserStatus status;
+    private Collection<? extends GrantedAuthority> authorities;
+
+
+    @JsonIgnore
     private String password;
-    Collection<? extends GrantedAuthority> authorities;
 
     public static CustomUserDetails fromUserEntityToCustomUserDetails(User object) {
         CustomUserDetails c = new CustomUserDetails();
+        c.uuid = object.getUuid();
         c.mail = object.getMail();
         c.password = object.getPassword();
-        /*
-        Collections.singletonList(
-        new SimpleGrantedAuthority(userEntity.getRoleEntity().getName()));
-         */
-
+        c.status = object.getStatus();
         c.authorities = object.getRole();
         return c;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 
     public String getMail() {
@@ -76,6 +98,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+
+        if (CustomUserDetails.this.status.equals(WAITING_ACTIVATION) ||
+            CustomUserDetails.this.status.equals(DEACTIVATED)) {
+            return false;
+        }
+        return CustomUserDetails.this.status.equals(ACTIVATED);
+
     }
 }
