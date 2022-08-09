@@ -1,0 +1,43 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    username: postgres
+    password: pass
+    url: jdbc:postgresql://localhost:5432/poster?currentSchema=poster
+    driver-class-name: org.postgresql.Driver
+  mvc:
+    format:
+      date: iso
+      date-time: iso
+
+project:
+  details:
+    pattern:
+      title: ^[a-zA-Zа-яA-я0-9\s]{1,20}$
+      description: ^[a-zA-Zа-яA-я0-9\s(,)(.)(-)]{1,1000}$
+
+
+    url:
+      country: http://localhost:8082/api/v1/classifier/country/
+      concertCategory: http://localhost:8082/api/v1/classifier/concert/category/
+
+
+error:
+  message:
+    titleCountry: Используйте трехбуквенный код страны
+    incorrectSymbols: Введены некорректные символы
+    countryNotFound: Такой страны в справочнике не существует
+    categoryNotFound: Такой категории в справочнике не существует
+    concertNotFound: Концерт не найден
+    filmNotFound: Фильм не найден
+    connectionFail: Ошибка сервера
+    incorrectDate: Дата не может быть раньше текущей
+    accountNotActivated: Аккаунт не активирован
+    updatedInfo: Данные уже обновлены
